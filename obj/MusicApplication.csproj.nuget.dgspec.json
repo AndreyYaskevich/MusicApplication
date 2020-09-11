@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CSharp\\GodelStudy\\MusicApplication\\MusicApplication\\MusicApplication.csproj": {}
+    "E:\\CSharp\\MusicApplication\\MusicApplication.csproj": {}
   },
   "projects": {
-    "E:\\CSharp\\GodelStudy\\MusicApplication\\MusicApplication\\MusicApplication.csproj": {
+    "E:\\CSharp\\MusicApplication\\MusicApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CSharp\\GodelStudy\\MusicApplication\\MusicApplication\\MusicApplication.csproj",
+        "projectUniqueName": "E:\\CSharp\\MusicApplication\\MusicApplication.csproj",
         "projectName": "MusicApplication",
-        "projectPath": "E:\\CSharp\\GodelStudy\\MusicApplication\\MusicApplication\\MusicApplication.csproj",
+        "projectPath": "E:\\CSharp\\MusicApplication\\MusicApplication.csproj",
         "packagesPath": "C:\\Users\\Yaskevich\\.nuget\\packages\\",
-        "outputPath": "E:\\CSharp\\GodelStudy\\MusicApplication\\MusicApplication\\obj\\",
+        "outputPath": "E:\\CSharp\\MusicApplication\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
