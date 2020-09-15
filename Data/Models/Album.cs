@@ -10,12 +10,15 @@ namespace MusicApplication.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTime ReleaseDate { get; set; }
         public ICollection<Song> Songs { get; set; }
+        public decimal Price { get; set; }
 
-       /* public Album()
+        public Album()
         {
             Songs = new List<Song>();
-        }*/
+        }
 
     }
 }

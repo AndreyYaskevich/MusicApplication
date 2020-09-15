@@ -11,18 +11,19 @@ namespace MusicApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SongsController : Controller
+    public class SongController : Controller
     {
         private readonly IMusicRepository<Song> _repository;
-        private readonly ISongService _service;
-        public SongsController(IMusicRepository<Song> context, ISongService service)
+        private readonly IService<Song> _service;
+        public SongController(IMusicRepository<Song> repository, IService<Song> service)
         {
-            _repository = context;
+            _repository = repository;
             _service = service;
         }
 
         [HttpGet]
-        public IEnumerable<Song> Get() => _repository.GetAll(x => x.AlbumId == 1, x=> x.Album);
+        public IEnumerable<Song> Get() => _repository.GetAll();
+        //public IEnumerable<Song> Get() => _repository.GetAll(x => x.AlbumId == 1, x=> x.Album);
 
         [HttpGet]
         [Route("{id}")]
@@ -30,17 +31,10 @@ namespace MusicApplication.Controllers
 
         [HttpPost]
         [Route("")]
-        public void AddSong([FromBody] List<Song> songs) => _service.AddSongsWithPrefix(songs);
+        public void Add([FromBody] List<Song> songs) => _service.Add(songs);
 
-        
         [HttpPut]
-        public void Update(Song song)
-        {
-            var editModel = _repository.GetById(song.Id);
-            editModel.Name = song.Name;
-            editModel.Author = song.Author;
-            _repository.Update(editModel);
-        }
+        public void Update(Song song) => _service.Update(song);
 
         [HttpDelete]
         [Route("{id}")]

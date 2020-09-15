@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace MusicApplication
 {
@@ -22,14 +20,37 @@ namespace MusicApplication
             _entites = context.Set<T>();
 
         }
+
+        public IEnumerable<T> GetAll()
+        {
+            return _entites.ToList();
+        }
+        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _entites;
+            if (includes.Length != 0)
+            {
+                query = null;
+                foreach (var include in includes)
+                {
+                    query = _entites.Include(include);
+                }
+            }
+            return query.ToList();
+        }
+
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
         {
-            IQueryable <T> query = null;
-            foreach (var include in includes)
+            IQueryable<T> query = _entites;
+            if (includes.Any())
             {
-                query = _entites.Include(include);
+                query = null;
+                foreach (var include in includes)
+                {
+                    query = _entites.Include(include);
+                }
             }
-            return query.Where(predicate) ?? _entites;
+            return query.Where(predicate).ToList();
         }
 
         public T GetById(int id)
@@ -37,12 +58,16 @@ namespace MusicApplication
             return _entites.Find(id);
         }
 
-        
         public void Insert(T entity)
         {
-            if (entity == null) throw new ArgumentNullException("entity");
-            _entites.Add(entity);
-            _context.SaveChanges();
+            try
+            {
+                if (entity == null) throw new ArgumentNullException("entity");
+
+                _entites.Add(entity);
+                Save();
+            }
+            catch (DbEntityValidationException dbEx) { }
         }
 
         public void Update(T entity)
@@ -61,7 +86,8 @@ namespace MusicApplication
         {
             var ent = _entites.Find(id);
             _entites.Remove(ent);
-            _context.SaveChanges();
+
+            Save();
         }
 
         public void Save()

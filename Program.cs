@@ -25,8 +25,6 @@ namespace MusicApplication
                 try
                 {
                     var context = services.GetRequiredService<ApplicationContext>();
-                    
-                    
                 }
                 catch (Exception ex)
                 {
@@ -35,8 +33,6 @@ namespace MusicApplication
                 }
                 host.Run();
             }
-
-
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -34,7 +34,9 @@ namespace MusicApplication
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
             services.AddControllersWithViews();
             services.AddScoped(typeof(IMusicRepository<>), typeof(MusicRepository<>));
-            services.AddTransient<ISongService, SongService>();
+            services.AddTransient<IService<Song>, SongService>();
+            services.AddTransient<IService<Album>, AlbumService>();
+            services.AddTransient<IService<User>, UserService>();
             services.AddControllers().
                 AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

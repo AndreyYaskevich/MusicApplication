@@ -8,6 +8,7 @@ namespace MusicApplication.Models
 {
     public class ApplicationContext : DbContext
     {
+        
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
            : base(options)
         {
@@ -20,10 +21,8 @@ namespace MusicApplication.Models
                 {
                     Id = 1,
                     Name = "Album1"
-                    
-                    
                 },
-                new Album 
+                new Album
                 {
                     Id = 2,
                     Name = "Album2"
@@ -35,7 +34,6 @@ namespace MusicApplication.Models
                     AlbumId = 1,
                     Name = "Song1",
                     Author="Author1",
-                    
                 },
                 new Song
                 {
@@ -43,22 +41,15 @@ namespace MusicApplication.Models
                     AlbumId = 2,
                     Name = "Song2",
                     Author = "Author2"
-                },
-                new Song
-                {
-                    Id = 3,
-                    AlbumId = 1,
-                    Name = "Song3",
-                    Author = "Author3"
                 });
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; Database=musicstoredb; Trusted_Connection=True;");
         }
         public DbSet<Song> Songs { get; set; }
         public DbSet<Album> Albums { get; set; }
-       
+        public DbSet<User> Users { get; set; }
+        public DbSet<Cart> Carts { get; set; }
     }
 }

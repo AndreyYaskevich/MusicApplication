@@ -12,23 +12,16 @@ namespace MusicApplication
 {
     public interface IMusicRepository<T> where T: class
     {
-        /*
-        
-        IEnumerable<Album> GetAlbums();
-        Album GetAlbumById(int albumId);
-        void Insert(Album album);
-        void Delete(int id);
-        void Update(Album album);
-        void Save();
-        */
+        IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes);
         IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
-
         
         T GetById(int id);
+        Song GetLast();
         void Insert(T entity);
         void Delete(int id);
         void Update(T entity);
         void Save();
-        Song GetLast();
+        
     }
 }
