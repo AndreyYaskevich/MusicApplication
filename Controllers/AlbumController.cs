@@ -13,17 +13,18 @@ namespace MusicApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AlbumsController : Controller
+    public class AlbumController : Controller
     {
         private readonly IMusicRepository<Album> _repository;
         private readonly IService<Album> _service;
-        public AlbumsController(IMusicRepository<Album> repository, IService<Album> service)
+        public AlbumController(IMusicRepository<Album> repository, IService<Album> service)
         {
             _repository = repository;
             _service = service;
         }
 
         [HttpGet]
+        [Route("all")]
         public IEnumerable<Album> Get() => _repository.GetAll();
         
         [HttpGet]

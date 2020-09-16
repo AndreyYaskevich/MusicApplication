@@ -50,6 +50,6 @@ namespace MusicApplication.Models
         public DbSet<Song> Songs { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> ShoppingCartItems { get; set; }
     }
 }
