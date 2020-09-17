@@ -21,7 +21,7 @@ namespace MusicApplication.Controllers
             _repository = repository;
         }
         [HttpGet]
-        public IEnumerable<User> Get() => _repository.GetAll(x => x.Cart);
+        public IEnumerable<User> Get() => _repository.GetAll();
 
         [HttpPost]
         [Route("")]

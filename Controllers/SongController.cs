@@ -22,6 +22,7 @@ namespace MusicApplication.Controllers
         }
 
         [HttpGet]
+        [Route("all")]
         public IEnumerable<Song> Get() => _repository.GetAll();
         //public IEnumerable<Song> Get() => _repository.GetAll(x => x.AlbumId == 1, x=> x.Album);
 

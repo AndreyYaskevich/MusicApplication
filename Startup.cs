@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MusicApplication.Controllers;
 using MusicApplication.Models;
 using MusicApplication.Services;
 
@@ -37,6 +38,7 @@ namespace MusicApplication
             services.AddTransient<IService<Song>, SongService>();
             services.AddTransient<IService<Album>, AlbumService>();
             services.AddTransient<IService<User>, UserService>();
+
             services.AddControllers().
                 AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

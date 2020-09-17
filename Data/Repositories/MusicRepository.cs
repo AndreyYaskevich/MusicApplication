@@ -18,7 +18,6 @@ namespace MusicApplication
         {
             _context = context;
             _entites = context.Set<T>();
-
         }
 
         public IEnumerable<T> GetAll()
@@ -101,6 +100,5 @@ namespace MusicApplication
             var latestId = songs.Max(x => x.Id);
             return songs.Find(latestId);
         }
-
     }
 }

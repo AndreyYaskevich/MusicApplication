@@ -1,4 +1,6 @@
-﻿using MusicApplication.Models;
+﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using MusicApplication.Data.Models;
+using MusicApplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +11,16 @@ namespace MusicApplication.Services
     public class UserService : IService<User>
     {
         private readonly IMusicRepository<User> _repository;
-        private readonly IMusicRepository<Cart> _cartRepository;
 
-        public UserService(IMusicRepository<User> repository, IMusicRepository<Cart> cartRepository)
+        public UserService(IMusicRepository<User> repository)
         {
             _repository = repository;
-            _cartRepository = cartRepository;
         }
 
         public void Add(User user)
         {
             _repository.Insert(user);
-            _cartRepository.Insert(new Cart() { UserId = user.Id});
+
         }
 
         public void Add(List<User> entites)

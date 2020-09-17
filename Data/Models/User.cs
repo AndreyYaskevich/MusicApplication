@@ -1,4 +1,5 @@
 ﻿using MusicApplication.Controllers;
+using MusicApplication.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,6 @@ namespace MusicApplication.Models
     public class User : IDataObject
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
-        public virtual Cart Cart { get; set; }
+        public string Name { get; set; }
     }
 }
