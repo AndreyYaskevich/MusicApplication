@@ -4,6 +4,7 @@ using MusicApplication.Data.Models;
 using MusicApplication.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,13 +13,13 @@ namespace MusicApplication.Services
     public class ShoppingCartService : IDisposable
     {
         private ApplicationContext _context;
+        public string ShoppingCartId { get; set; }
+        public List<ShoppingCartItem> ShoppingCartItems { get; set; }
         private ShoppingCartService(ApplicationContext context)
         {
             _context = context;
         }
 
-        public string ShoppingCartId { get; set; }
-        public List<ShoppingCartItem> ShoppingCartItems { get; set; }
         public static ShoppingCartService GetCart(IServiceProvider services)
         {
             ISession session = services.GetRequiredService<IHttpContextAccessor>()?
@@ -46,7 +47,12 @@ namespace MusicApplication.Services
 
         public List<ShoppingCartItem> GetCartItems()
         {
-            return _context.ShoppingCartItems ?? 
+            return ShoppingCartItems ??
+                (ShoppingCartItems =
+                _context.ShoppingCartItems
+                .Where(s => s.ShoppingCartId == ShoppingCartId)
+                .Include(s => s.Album)
+                .ToList());
         }
         public void Dispose()
         {
