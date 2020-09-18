@@ -9,8 +9,6 @@ namespace MusicApplication.Services
     {
         void Add(T entity);
         void Add(List<T> entites);
-        void AddWithPrefix(T entity);
-        void AddWithPrefix(List<T> entites);
         void Update(T entity);
     }
 }
