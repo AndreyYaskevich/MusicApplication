@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicApplication.Models
 {
-    public class Song : IDataObject
+    public class Song : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

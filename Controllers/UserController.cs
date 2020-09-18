@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MusicApplication.Data.Interfaces;
 using MusicApplication.Models;
 using MusicApplication.Services;
 
@@ -26,6 +27,7 @@ namespace MusicApplication.Controllers
         [HttpPost]
         [Route("")]
         public void Add([FromBody] User user) => _service.Add(user);
+
 
         [HttpDelete]
         [Route("{id}")]

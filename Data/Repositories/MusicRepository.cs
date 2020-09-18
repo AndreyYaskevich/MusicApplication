@@ -12,8 +12,8 @@ namespace MusicApplication
 {
     public class MusicRepository<T> : IMusicRepository<T> where T: class
     {
-        private ApplicationContext _context;
-        private DbSet<T> _entites;
+        private readonly ApplicationContext _context;
+        private readonly DbSet<T> _entites;
         public MusicRepository(ApplicationContext context)
         {
             _context = context;
@@ -66,7 +66,7 @@ namespace MusicApplication
                 _entites.Add(entity);
                 Save();
             }
-            catch (DbEntityValidationException dbEx) { }
+            catch (DbEntityValidationException) { }
         }
 
         public void Update(T entity)

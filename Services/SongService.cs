@@ -1,4 +1,5 @@
-﻿using MusicApplication.Models;
+﻿using MusicApplication.Data.Interfaces;
+using MusicApplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MusicApplication.Services
 {
-    public class SongService : IService<Song>
+    public class SongService : IMusicService<Song>
     {
         private readonly IMusicRepository<Song> _repository;
         public SongService(IMusicRepository<Song> repository)

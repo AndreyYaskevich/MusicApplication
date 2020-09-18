@@ -13,7 +13,6 @@ namespace MusicApplication.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
            : base(options)
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder builder)
@@ -27,7 +26,8 @@ namespace MusicApplication.Models
                 new Album
                 {
                     Id = 2,
-                    Name = "Album2"
+                    Name = "Album2",
+                    Price = 12.00M
                 });
             builder.Entity<Song>().HasData(
                 new Song
@@ -52,6 +52,7 @@ namespace MusicApplication.Models
         public DbSet<Song> Songs { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+
     }
 }

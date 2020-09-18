@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MusicApplication.Controllers;
+using MusicApplication.Data.Interfaces;
+using MusicApplication.Data.Repositories;
 using MusicApplication.Models;
 using MusicApplication.Services;
 
@@ -38,6 +40,8 @@ namespace MusicApplication
             services.AddTransient<IService<Song>, SongService>();
             services.AddTransient<IService<Album>, AlbumService>();
             services.AddTransient<IService<User>, UserService>();
+            services.AddTransient<IShoppingCartService, ShoppingCartService>();
+            services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
 
             services.AddControllers().
                 AddNewtonsoftJson(options =>

@@ -1,4 +1,5 @@
 ﻿using MusicApplication.Controllers;
+using MusicApplication.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MusicApplication.Models
 {
-    public class Album : IDataObject
+    public class Album : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
