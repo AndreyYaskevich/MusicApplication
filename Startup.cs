@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,9 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MusicApplication.Controllers;
 using MusicApplication.Data.Interfaces;
-using MusicApplication.Data.Repositories;
 using MusicApplication.Models;
 using MusicApplication.Services;
 
@@ -36,12 +30,13 @@ namespace MusicApplication
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
             services.AddControllersWithViews();
-            services.AddScoped(typeof(IMusicRepository<>), typeof(MusicRepository<>));
-            services.AddTransient<IService<Song>, SongService>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddTransient<IMusicService<Song>, SongService>();
             services.AddTransient<IService<Album>, AlbumService>();
-            services.AddTransient<IService<User>, UserService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IShoppingCartService, ShoppingCartService>();
-            services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IFileService, FileService>();
 
             services.AddControllers().
                 AddNewtonsoftJson(options =>
@@ -58,6 +53,8 @@ namespace MusicApplication
             }
 
             app.UseRouting();
+
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

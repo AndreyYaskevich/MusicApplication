@@ -1,10 +1,5 @@
 ﻿using MusicApplication.Controllers;
 using MusicApplication.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MusicApplication.Models
 {
@@ -12,6 +7,7 @@ namespace MusicApplication.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
     }
 }

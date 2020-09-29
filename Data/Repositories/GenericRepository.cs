@@ -1,32 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using MusicApplication.Models;
-using Sitecore.FakeDb;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace MusicApplication
 {
-    public class MusicRepository<T> : IMusicRepository<T> where T: class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private readonly ApplicationContext _context;
-        private readonly DbSet<T> _entites;
-        public MusicRepository(ApplicationContext context)
+        private readonly DbSet<TEntity> _entites;
+        public GenericRepository(ApplicationContext context)
         {
             _context = context;
-            _entites = context.Set<T>();
+            _entites = context.Set<TEntity>();
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<TEntity> GetAll()
         {
             return _entites.ToList();
         }
-        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includes)
+        public IEnumerable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includes)
         {
-            IQueryable<T> query = _entites;
+            IQueryable<TEntity> query = _entites;
             if (includes.Length != 0)
             {
                 query = null;
@@ -38,9 +38,9 @@ namespace MusicApplication
             return query.ToList();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
         {
-            IQueryable<T> query = _entites;
+            IQueryable<TEntity> query = _entites;
             if (includes.Any())
             {
                 query = null;
@@ -49,15 +49,15 @@ namespace MusicApplication
                     query = _entites.Include(include);
                 }
             }
-            return query.Where(predicate).ToList();
+            return await query.Where(predicate).ToListAsync();
         }
 
-        public T GetById(int id)
+        public TEntity FindById(int id)
         {
             return _entites.Find(id);
         }
 
-        public void Insert(T entity)
+        public void Insert(TEntity entity)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace MusicApplication
             catch (DbEntityValidationException) { }
         }
 
-        public void Update(T entity)
+        public void Update(TEntity entity)
         {
             try
             {
@@ -81,12 +81,17 @@ namespace MusicApplication
             }
             catch (DbEntityValidationException) { }
         }
+
         public void Delete(int id)
         {
-            var ent = _entites.Find(id);
-            _entites.Remove(ent);
 
-            Save();
+            var ent = _entites.Find(id);
+            if (ent != null)
+            {
+                _entites.Remove(ent);
+                Save();
+            }
+
         }
 
         public void Save()
@@ -94,11 +99,5 @@ namespace MusicApplication
             _context.SaveChanges();
         }
 
-        public Song GetLast()
-        {
-            var songs = _context.Songs;
-            var latestId = songs.Max(x => x.Id);
-            return songs.Find(latestId);
-        }
     }
 }

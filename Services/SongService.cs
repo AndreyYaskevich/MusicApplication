@@ -1,18 +1,14 @@
 ﻿using MusicApplication.Data.Interfaces;
 using MusicApplication.Models;
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MusicApplication.Services
 {
     public class SongService : IMusicService<Song>
     {
-        private readonly IMusicRepository<Song> _repository;
-        public SongService(IMusicRepository<Song> repository)
+        private readonly IGenericRepository<Song> _repository;
+        public SongService(IGenericRepository<Song> repository)
         {
             _repository = repository;
         }
@@ -33,7 +29,7 @@ namespace MusicApplication.Services
         public void AddWithPrefix(Song entity)
         {
             _repository.Insert(entity);
-            var lastSong = _repository.GetLast();
+            var lastSong = _repository.GetAll().Last();
             lastSong.Name = $"{lastSong.Id}.{lastSong.Name}";
             _repository.Update(lastSong);
         }
@@ -43,7 +39,7 @@ namespace MusicApplication.Services
             foreach (var entity in entites)
             {
                 _repository.Insert(entity);
-                var lastSong = _repository.GetLast();
+                var lastSong = _repository.GetAll().Last();
                 lastSong.Name = $"{lastSong.Id}.{lastSong.Name}";
                 _repository.Update(lastSong);
             }
@@ -51,9 +47,8 @@ namespace MusicApplication.Services
 
         public void Update(Song entity)
         {
-            var editModel = _repository.GetById(entity.Id);
+            var editModel = _repository.FindById(entity.Id);
             editModel.Name = entity.Name;
-            editModel.Author = entity.Author;
             _repository.Update(editModel);
         }
     }

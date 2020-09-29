@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MusicApplication.Data.Interfaces;
 using MusicApplication.Models;
-using MusicApplication.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MusicApplication.Controllers
 {
@@ -13,9 +10,9 @@ namespace MusicApplication.Controllers
     [Route("[controller]")]
     public class SongController : Controller
     {
-        private readonly IMusicRepository<Song> _repository;
-        private readonly IService<Song> _service;
-        public SongController(IMusicRepository<Song> repository, IService<Song> service)
+        private readonly IGenericRepository<Song> _repository;
+        private readonly IMusicService<Song> _service;
+        public SongController(IGenericRepository<Song> repository, IMusicService<Song> service)
         {
             _repository = repository;
             _service = service;
@@ -23,16 +20,17 @@ namespace MusicApplication.Controllers
 
         [HttpGet]
         [Route("all")]
-        public IEnumerable<Song> Get() => _repository.GetAll();
+        public async Task<IEnumerable<Song>> Get() => await _repository.GetAllAsync(x => x.AlbumId == 1, x => x.Album);
         //public IEnumerable<Song> Get() => _repository.GetAll(x => x.AlbumId == 1, x=> x.Album);
 
         [HttpGet]
         [Route("{id}")]
-        public Song Get(int id) => _repository.GetById(id);
+        public Song Get(int id) => _repository.FindById(id);
 
         [HttpPost]
         [Route("")]
-        public void Add([FromBody] List<Song> songs) => _service.Add(songs);
+        public void Add([FromBody] List<Song> songs) => _service.AddWithPrefix(songs);
+        //public void Add([FromBody] Song song) => _service.AddWithPrefix(song);
 
         [HttpPut]
         public void Update(Song song) => _service.Update(song);

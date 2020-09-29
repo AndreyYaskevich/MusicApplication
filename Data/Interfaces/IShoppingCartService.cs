@@ -1,14 +1,9 @@
-﻿using MusicApplication.Data.Models;
-using MusicApplication.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MusicApplication.Data.Interfaces
+﻿namespace MusicApplication.Data.Interfaces
 {
     public interface IShoppingCartService
     {
-        IEnumerable<ShoppingCart> AddItemToCart(int amount, int albumId, int cartId);
+        void AddItemToCart(int cartId, int albumId, int amount);
+        void RemoveItemFromCart(int cartId, int albumId);
+
     }
 }

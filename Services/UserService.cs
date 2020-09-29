@@ -1,40 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using MusicApplication.Data.Interfaces;
+﻿using MusicApplication.Data.Interfaces;
 using MusicApplication.Data.Models;
 using MusicApplication.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MusicApplication.Services
 {
-    public class UserService : IService<User>
+    public class UserService : IUserService
     {
-        private readonly IMusicRepository<User> _repository;
-        private readonly IShoppingCartRepository _shoppingCartRepository;
-
-        public UserService(IMusicRepository<User> repository, IShoppingCartRepository shoppingCartRepository)
+        private readonly IGenericRepository<User> _userRepository;
+        private readonly IGenericRepository<ShoppingCart> _shoppingCartRepository;
+        private readonly IGenericRepository<ShoppingCartItem> _shoppingCartItemRepository;
+        public UserService(
+            IGenericRepository<User> userRepository,
+            IGenericRepository<ShoppingCart> shoppingCartRepository,
+            IGenericRepository<ShoppingCartItem> shoppingCartItemRepository)
         {
-            _repository = repository;
+            _userRepository = userRepository;
             _shoppingCartRepository = shoppingCartRepository;
+            _shoppingCartItemRepository = shoppingCartItemRepository;
         }
 
-        public void Add(User user)
+        public void AddUser(User user)
         {
-            _repository.Insert(user);
-            var lastUser = _repository.GetById(user.Id);
-            _shoppingCartRepository.Create(new ShoppingCart { UserId = lastUser.Id, TotalAmount = 0 });
+            _userRepository.Insert(user);
+            var lastUser = _userRepository.FindById(user.Id);
+            _shoppingCartRepository.Insert(new ShoppingCart { UserId = lastUser.Id });
         }
 
-        public void Add(List<User> entites)
+        public void DeleteUser(int id)
         {
-            throw new NotImplementedException();
-        }
+            var cart = _shoppingCartRepository.FindById(id);
+            _userRepository.Delete(id);
 
-        public void Update(User entity)
-        {
-            throw new NotImplementedException();
+            _shoppingCartRepository.Delete(cart.Id);
         }
     }
 }

@@ -2,16 +2,14 @@
 using MusicApplication.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MusicApplication.Services
 {
-    public class AlbumService : IMusicService<Album> 
+    public class AlbumService : IMusicService<Album>
     {
-        private readonly IMusicRepository<Album> _repository;
+        private readonly IGenericRepository<Album> _repository;
 
-        public AlbumService(IMusicRepository<Album> repository)
+        public AlbumService(IGenericRepository<Album> repository)
         {
             _repository = repository;
         }
@@ -40,10 +38,10 @@ namespace MusicApplication.Services
 
         public void Update(Album entity)
         {
-            var editModel = _repository.GetById(entity.Id);
-            editModel.Name = entity.Name;
-            editModel.Name = entity.Name;
+            var editModel = _repository.FindById(entity.Id);
+            editModel.Title = entity.Title;
             editModel.Price = entity.Price;
+
             _repository.Update(editModel);
         }
     }
